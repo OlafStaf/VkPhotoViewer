@@ -6,6 +6,10 @@ package com.vin.olafstaf.vkphotoviewer.data.dto.album;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.vin.olafstaf.vkphotoviewer.data.dto.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Album {
 
@@ -33,9 +37,9 @@ public class Album {
     @SerializedName("size")
     @Expose
     private Integer size;
-    @SerializedName("thumb_src")
+    @SerializedName("sizes")
     @Expose
-    private String thumbSrc;
+    private List<Size> sizes = new ArrayList<Size>();
 
     /**
      *
@@ -184,19 +188,19 @@ public class Album {
     /**
      *
      * @return
-     * The thumbSrc
+     * The sizes
      */
-    public String getThumbSrc() {
-        return thumbSrc;
+    public List<Size> getSizes() {
+        return sizes;
     }
 
     /**
      *
-     * @param thumbSrc
-     * The thumb_src
+     * @param sizes
+     * The sizes
      */
-    public void setThumbSrc(String thumbSrc) {
-        this.thumbSrc = thumbSrc;
+    public void setSizes(List<Size> sizes) {
+        this.sizes = sizes;
     }
 
 }

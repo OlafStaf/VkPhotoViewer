@@ -32,7 +32,7 @@ public class PhotosPresenterImpl extends BasePresenter implements PhotosPresente
     public void getAlbumPhotos(String albumId) {
         Subscription subscription = VKApiModule
                 .getService()
-                .getAlbumsPhoto(albumId, PreferencesManager.getInstance().getUserId(), PreferencesManager.getInstance().getAccessToken())
+                .getAlbumsPhoto(albumId, PreferencesManager.getInstance().getUserId(), PreferencesManager.getInstance().getAccessToken(),"1")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<AlbumPhotosResponse>() {

@@ -16,10 +16,12 @@ public interface VKApiInterface {
     @GET("photos.getAlbums")
     Observable<AlbumsResponse> getUserAlbums(@Query("owner_id") String ownerId,
                                              @Query("need_covers") String needCovers,
-                                             @Query("access_token") String accessToken);
+                                             @Query("access_token") String accessToken,
+                                             @Query("photo_sizes") String needPhotoSizes);
 
     @GET("photos.get")
     Observable<AlbumPhotosResponse> getAlbumsPhoto(@Query("album_id") String albumId,
                                                    @Query("owner_id") String ownerId,
-                                                   @Query("access_token") String accessToken);
+                                                   @Query("access_token") String accessToken,
+                                                   @Query("photo_sizes") String needPhotoSizes);
 }
