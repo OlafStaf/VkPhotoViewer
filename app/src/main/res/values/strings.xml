@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VkPhotoViewer</string>
+    <string name="app_name">VkPhoto</string>
     <string name="action_settings">Settings</string>
     <string name="login">login</string>
     <string name="not_access_message">Your should give access to your photos, if you want use this app.</string>

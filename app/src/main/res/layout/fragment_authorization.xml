@@ -2,18 +2,40 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_main_logo"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/login_btn_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:src="@drawable/web_hi_res_512"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_login_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_main_logo"
+        android:text="Please login to VK"
+        android:textSize="16dp"
+        android:layout_marginTop="@dimen/login_btn_margin"
+        android:textColor="@color/colorAccent"
+        android:layout_centerInParent="true"/>
 
     <Button
         android:id="@+id/btn_authorization"
-        android:layout_width="wrap_content"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:padding="5dp"
-        android:textAllCaps="false"
+        android:layout_below="@+id/tv_login_message"
+        android:layout_centerHorizontal="true"
         android:text="@string/login"
         android:textColor="#ffff"
         android:background="@color/colorPrimary"
-        android:drawableRight="@drawable/ic_login_white_18dp"/>
+        android:drawableLeft="@drawable/ic_vk_white_24dp"/>
 
 </RelativeLayout>
