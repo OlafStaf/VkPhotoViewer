@@ -27,4 +27,6 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public abstract int getLayoutId();
+
+    public abstract void updateToolbar();
 }

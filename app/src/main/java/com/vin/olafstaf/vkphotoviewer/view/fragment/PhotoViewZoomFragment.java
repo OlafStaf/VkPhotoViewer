@@ -58,4 +58,9 @@ public class PhotoViewZoomFragment extends BaseFragment {
     public int getLayoutId() {
         return R.layout.fragment_photo_view;
     }
+
+    @Override
+    public void updateToolbar() {
+
+    }
 }

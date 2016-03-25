@@ -2,23 +2,33 @@ package com.vin.olafstaf.vkphotoviewer.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.vin.olafstaf.vkphotoviewer.R;
+import com.vin.olafstaf.vkphotoviewer.app.util.NetworkUtil;
+import com.vin.olafstaf.vkphotoviewer.app.util.PreferencesManager;
 import com.vin.olafstaf.vkphotoviewer.view.Navigator;
 import com.vin.olafstaf.vkphotoviewer.view.fragment.AlbumsFragment;
 import com.vin.olafstaf.vkphotoviewer.view.fragment.BaseFragment;
 import com.vin.olafstaf.vkphotoviewer.view.fragment.LoginFragment;
 import com.vin.olafstaf.vkphotoviewer.view.fragment.PhotoViewZoomFragment;
 import com.vin.olafstaf.vkphotoviewer.view.fragment.PhotosFragment;
-import com.vin.olafstaf.vkphotoviewer.app.util.PreferencesManager;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
 
+import butterknife.Bind;
+
 public class MainActivity extends BaseActivity implements Navigator {
+
+    @Bind(R.id.mainProgress)
+    FrameLayout mainProgress;
+    BaseFragment firstFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,9 +40,16 @@ public class MainActivity extends BaseActivity implements Navigator {
                 switch (res) {
                     case LoggedOut:
                         navigateToLoginScreen();
-                        break;
+                        mainProgress.setVisibility(View.GONE);
+                        return;
                     case LoggedIn:
                         navigateToAlbumsScreen();
+                        mainProgress.setVisibility(View.GONE);
+                        return;
+                    case Pending:
+                        if (!NetworkUtil.isNetworkConnected(MainActivity.this)){
+                            Toast.makeText(MainActivity.this, R.string.no_connection_message, Toast.LENGTH_LONG).show();
+                        }
                         break;
                     default:
                         break;
@@ -41,7 +58,7 @@ public class MainActivity extends BaseActivity implements Navigator {
 
             @Override
             public void onError(VKError error) {
-
+                Toast.makeText(MainActivity.this, error.errorMessage, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -58,12 +75,14 @@ public class MainActivity extends BaseActivity implements Navigator {
             public void onResult(VKAccessToken res) {
                 PreferencesManager.getInstance().setAccessToken(res.accessToken);
                 PreferencesManager.getInstance().setUserId(res.userId);
-                navigateToAlbumsScreenNonBackStack();
+                navigateToAlbumsScreen();
+                mainProgress.setVisibility(View.GONE);
             }
 
             @Override
             public void onError(VKError error) {
                 Toast.makeText(MainActivity.this, R.string.not_access_message, Toast.LENGTH_LONG).show();
+                mainProgress.setVisibility(View.GONE);
             }
         })) {
             super.onActivityResult(requestCode, resultCode, data);
@@ -72,22 +91,19 @@ public class MainActivity extends BaseActivity implements Navigator {
 
     @Override
     public void navigateToAlbumsScreen() {
-        replaceFragmentNonBackStack(AlbumsFragment.newInstance());
+        firstFragment = AlbumsFragment.newInstance();
+        replaceFragmentNonBackStack(firstFragment);
     }
 
-    @Override
-    public void navigateToAlbumsScreenNonBackStack() {
-        replaceFragmentNonBackStack(AlbumsFragment.newInstance());
-    }
 
     @Override
-    public void navigateToSingleAlbumScreen(String albumId) {
-        replaceFragment(PhotosFragment.newInstance(albumId));
+    public void navigateToSingleAlbumScreen(String albumId, String albumTitle) {
+        addFragment(PhotosFragment.newInstance(albumId, albumTitle), albumId);
     }
 
     @Override
     public void navigateToPhotoViewScreen(String photoUrl) {
-        addFragment(PhotoViewZoomFragment.newInstance(photoUrl));
+        addFragment(PhotoViewZoomFragment.newInstance(photoUrl), photoUrl);
     }
 
     @Override
@@ -95,12 +111,22 @@ public class MainActivity extends BaseActivity implements Navigator {
         replaceFragmentNonBackStack(LoginFragment.newInstance());
     }
 
-    private void addFragment(BaseFragment fragment) {
+    private void addFragment(BaseFragment fragment, String tag) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_to_left, R.anim.slide_to_right,
                         R.anim.slide_to_right_back, R.anim.slide_to_left_back)
-                .add(R.id.fragment_container, fragment, fragment.getTag())
+                .add(R.id.fragment_container, fragment, tag)
+                .addToBackStack(tag)
+                .commit();
+    }
+
+    private void replaceFragment(BaseFragment fragment, String tag) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_to_left, R.anim.slide_to_right,
+                        R.anim.slide_to_right_back, R.anim.slide_to_left_back)
+                .replace(R.id.fragment_container, fragment, fragment.getTag())
                 .addToBackStack(fragment.getTag())
                 .commit();
     }
@@ -114,15 +140,6 @@ public class MainActivity extends BaseActivity implements Navigator {
                 .commit();
     }
 
-    private void replaceFragment(BaseFragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.slide_to_left, R.anim.slide_to_right,
-                        R.anim.slide_to_right_back, R.anim.slide_to_left_back)
-                .replace(R.id.fragment_container, fragment, fragment.getTag())
-                .addToBackStack(fragment.getTag())
-                .commit();
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -134,5 +151,22 @@ public class MainActivity extends BaseActivity implements Navigator {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void navigateBack() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        int i = fragmentManager.getBackStackEntryCount();
+        if (i > 1) {
+            FragmentManager.BackStackEntry backEntry = fragmentManager
+                    .getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 2);
+            String str = backEntry.getName();
+            BaseFragment currentFragment = (BaseFragment) fragmentManager.findFragmentByTag(str);
+            if (currentFragment != null) {
+                currentFragment.updateToolbar();
+            }
+        } else {
+            firstFragment.updateToolbar();
+        }
     }
 }

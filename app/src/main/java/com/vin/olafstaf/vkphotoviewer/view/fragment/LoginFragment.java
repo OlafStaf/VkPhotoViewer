@@ -46,22 +46,8 @@ public class LoginFragment extends BaseFragment {
         return R.layout.fragment_authorization;
     }
 
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
-            @Override
-            public void onResult(VKAccessToken res) {
-                PreferencesManager.getInstance().setAccessToken(res.accessToken);
-                PreferencesManager.getInstance().setUserId(res.userId);
-            }
+    public void updateToolbar() {
 
-            @Override
-            public void onError(VKError error) {
-                Toast.makeText(getActivity(), R.string.not_access_message, Toast.LENGTH_LONG).show();
-            }
-        })) {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 }

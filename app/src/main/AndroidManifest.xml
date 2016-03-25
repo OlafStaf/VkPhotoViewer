@@ -3,7 +3,7 @@
     package="com.vin.olafstaf.vkphotoviewer">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <application
         android:name=".app.VKPVApplication"
         android:allowBackup="true"
