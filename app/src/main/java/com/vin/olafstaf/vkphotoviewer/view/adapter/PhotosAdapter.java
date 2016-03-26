@@ -3,6 +3,7 @@ package com.vin.olafstaf.vkphotoviewer.view.adapter;
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,8 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoVH> {
     @Override
     public void onBindViewHolder(PhotoVH holder, int position) {
         PhotoEntity photoEntity = data.get(position);
+        Log.e("PhotoUrl",photoEntity.getPhotoUrl());
+        Log.e("PhotoBigUrl",photoEntity.getPhotoBigUrl());
         holder.bindPhoto(photoEntity.getPhotoUrl());
     }
 
@@ -76,15 +79,11 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoVH> {
         public PhotoVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onPhotoClick(data.get(getAdapterPosition()));
-                }
-            });
+            itemView.setOnClickListener(v -> listener.onPhotoClick(data.get(getAdapterPosition())));
         }
 
         public void bindPhoto(String photoUrl) {
+            progressBar.setVisibility(View.VISIBLE);
             Glide.with(context)
                     .load(photoUrl)
                     .centerCrop()

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumVH> {
     @Override
     public void onBindViewHolder(AlbumVH holder, int position) {
         AlbumEntity albumEntity = data.get(position);
+        Log.e("AlbumPhotoUrl",albumEntity.getAlbumIcon());
         holder.bindAlbumIcon(albumEntity.getAlbumIcon());
         holder.bindAlbumTitle(albumEntity.getAlbumTitle());
         holder.bindPhotoCount(String.valueOf(albumEntity.getPhotoCount()));
@@ -88,12 +90,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumVH> {
         public AlbumVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onAlbumClick(data.get(getAdapterPosition()));
-                }
-            });
+            itemView.setOnClickListener(v -> listener.onAlbumClick(data.get(getAdapterPosition())));
         }
 
         public void bindAlbumTitle(String albumTitle) {
@@ -105,6 +102,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumVH> {
         }
 
         public void bindAlbumIcon(String iconUrl) {
+            progressBar.setVisibility(View.VISIBLE);
             Glide.with(context)
                     .load(iconUrl)
                     .centerCrop()

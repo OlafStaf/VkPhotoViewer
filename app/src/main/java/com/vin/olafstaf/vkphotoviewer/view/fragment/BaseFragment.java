@@ -14,15 +14,12 @@ import butterknife.ButterKnife;
  * Created by Stafiiyevskyi on 18.03.2016.
  */
 public abstract class BaseFragment extends Fragment {
-//    @Nullable
-//    @Bind(R.id.toolbar)
-//    Toolbar toolbar;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(), container, false);
         ButterKnife.bind(this, view);
-//        ((BaseActivity)getActivity()).setSupportActionBar(toolbar);
         return view;
     }
 
