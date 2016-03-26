@@ -34,6 +34,7 @@ public class PhotosPresenterImpl extends BasePresenter implements PhotosPresente
                 .getService()
                 .getAlbumsPhoto(albumId, PreferencesManager.getInstance().getUserId(), PreferencesManager.getInstance().getAccessToken(),"1")
                 .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<AlbumPhotosResponse>() {
                     @Override

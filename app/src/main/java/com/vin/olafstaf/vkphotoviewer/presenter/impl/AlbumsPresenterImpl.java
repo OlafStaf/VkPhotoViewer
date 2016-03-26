@@ -33,6 +33,7 @@ public class AlbumsPresenterImpl extends BasePresenter implements AlbumsPresente
     public void getAllUserAlbums(String userId) {
         Subscription subscription = VKApiModule.getService().getUserAlbums(userId, "1", PreferencesManager.getInstance().getAccessToken(),"1")
                 .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<AlbumsResponse>() {
                     @Override
