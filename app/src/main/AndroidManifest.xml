@@ -3,7 +3,8 @@
     package="com.vin.olafstaf.vkphotoviewer">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".app.VKPVApplication"
         android:allowBackup="true"
@@ -27,6 +28,11 @@
             android:name="com.vk.sdk.VKServiceActivity"
             android:label="ServiceActivity"
             android:theme="@style/VK.Transparent" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="4c432128f40e86657e20cda2c4361f8e57006ce6" />
+
     </application>
 
 </manifest>
