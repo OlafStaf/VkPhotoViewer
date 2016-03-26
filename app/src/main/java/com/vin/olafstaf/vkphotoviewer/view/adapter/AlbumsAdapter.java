@@ -109,6 +109,9 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumVH> {
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
                         public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            if (target.getRequest().isFailed()) {
+                                target.getRequest().begin();
+                            }
                             return false;
                         }
 

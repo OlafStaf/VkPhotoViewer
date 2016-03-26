@@ -42,6 +42,9 @@ public class PhotoViewZoomFragment extends BaseFragment {
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        if (target.getRequest().isFailed()) {
+                            target.getRequest().begin();
+                        }
                         return false;
                     }
 
