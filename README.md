@@ -1,6 +1,6 @@
 # VkPhotoViewer
 
-## Simple app. Use VK API, [Retrofit] lib, [RxJava] and MVP architecture.
+## Use VK API, [Retrofit] lib, [RxJava] and MVP architecture.
 ## [Apk file].
 <img src="/art/ns1.PNG">
 <img src="/art/ns2.PNG">
