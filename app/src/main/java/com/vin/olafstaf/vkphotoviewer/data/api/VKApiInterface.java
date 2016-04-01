@@ -4,8 +4,9 @@ package com.vin.olafstaf.vkphotoviewer.data.api;
 import com.vin.olafstaf.vkphotoviewer.data.dto.album.AlbumsResponse;
 import com.vin.olafstaf.vkphotoviewer.data.dto.photo.AlbumPhotosResponse;
 
-import retrofit.http.GET;
-import retrofit.http.Query;
+
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**

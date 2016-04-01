@@ -1,17 +1,13 @@
 package com.vin.olafstaf.vkphotoviewer.view.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.View;
-import android.widget.Toast;
 
 import com.vin.olafstaf.vkphotoviewer.R;
-import com.vin.olafstaf.vkphotoviewer.app.util.PreferencesManager;
-import com.vk.sdk.VKAccessToken;
-import com.vk.sdk.VKCallback;
+import com.vin.olafstaf.vkphotoviewer.view.activity.BaseActivity;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
-import com.vk.sdk.api.VKError;
 
 import butterknife.OnClick;
 
@@ -48,6 +44,10 @@ public class LoginFragment extends BaseFragment {
 
     @Override
     public void updateToolbar() {
-
+        ActionBar actionBar = ((BaseActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setSubtitle(getString(R.string.autorization_page_title));
+            actionBar.setDisplayHomeAsUpEnabled(false);
+        }
     }
 }
