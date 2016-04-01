@@ -63,7 +63,7 @@ public class AlbumsFragment extends BaseFragment implements AlbumsAdapter.OnAlbu
         ActionBar actionBar = ((BaseActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setSubtitle(getString(R.string.albums_subtitle));
-//            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(false);
         }
     }
 
