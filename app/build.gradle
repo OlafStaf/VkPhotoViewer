@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'io.fabric'
-
+apply plugin: 'com.android.databinding'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
