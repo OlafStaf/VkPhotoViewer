@@ -37,7 +37,6 @@ public class AlbumsFragment extends BaseFragment implements AlbumsAdapter.OnAlbu
     @Bind(R.id.iv_reload)
     AppCompatImageView ivReload;
 
-    private GridLayoutManager layoutManager;
     private AlbumsAdapter adapter;
     private AlbumsPresenterImpl presenter;
 
@@ -69,7 +68,7 @@ public class AlbumsFragment extends BaseFragment implements AlbumsAdapter.OnAlbu
 
     private void setupRvAlbums() {
         adapter = new AlbumsAdapter(this);
-        layoutManager = new GridLayoutManager(getActivity(), SPAN_COUNT);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), SPAN_COUNT);
         rvAlbums.setLayoutManager(layoutManager);
         rvAlbums.setAdapter(adapter);
     }
